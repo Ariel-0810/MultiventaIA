@@ -1,7 +1,13 @@
-'use client'
-
 import './globals.css'
-import { Toaster } from 'sonner'
+import { Inter } from 'next/font/google'
+import { ChatProvider } from '@/context/ChatContext'
+
+const inter = Inter({ subsets: ['latin'] })
+
+export const metadata = {
+  title: 'MultiVenta IA',
+  description: 'Sistema de gestión de ventas con inteligencia artificial',
+}
 
 export default function RootLayout({
   children,
@@ -9,10 +15,11 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="es" suppressHydrationWarning>
-      <body className="min-h-screen bg-background font-sans antialiased">
-        <Toaster richColors />
-        {children}
+    <html lang="es">
+      <body className={inter.className}>
+        <ChatProvider>
+          {children}
+        </ChatProvider>
       </body>
     </html>
   )

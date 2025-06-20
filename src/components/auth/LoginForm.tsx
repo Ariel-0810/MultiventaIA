@@ -8,6 +8,15 @@ import { Label } from "@/components/ui/label"
 import { toast } from "sonner"
 import { api } from '@/lib/api'
 
+interface LoginResponse {
+  user: {
+    id: string
+    email: string
+    name: string
+  }
+  token: string
+}
+
 export function LoginForm() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -19,7 +28,7 @@ export function LoginForm() {
     setIsLoading(true)
 
     try {
-      const { data } = await api.post('/auth/login', { email, password })
+      const { data } = await api.post<LoginResponse>('/auth/login', { email, password })
       login(data.user, data.token)
       toast.success('¡Bienvenido!')
     } catch (error) {
