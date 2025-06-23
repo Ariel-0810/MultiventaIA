@@ -14,9 +14,13 @@ import {
 } from "@/components/ui/tabs"
 
 export default function SettingsPage() {
+  // Estados para cada switch
+  const [generalNotifications, setGeneralNotifications] = useState(true)
+  const [emailNotifications, setEmailNotifications] = useState(true)
+  const [pushNotifications, setPushNotifications] = useState(false)
+  const [dailySummary, setDailySummary] = useState(true)
   const [whatsappEnabled, setWhatsappEnabled] = useState(false)
   const [mlEnabled, setMlEnabled] = useState(false)
-  const [notifications, setNotifications] = useState(true)
 
   return (
     <div className="container mx-auto py-6">
@@ -65,6 +69,7 @@ export default function SettingsPage() {
               <Switch
                 checked={whatsappEnabled}
                 onCheckedChange={setWhatsappEnabled}
+                className="data-[state=checked]:bg-green-500"
               />
             </div>
 
@@ -94,6 +99,7 @@ export default function SettingsPage() {
               <Switch
                 checked={mlEnabled}
                 onCheckedChange={setMlEnabled}
+                className="data-[state=checked]:bg-green-500"
               />
             </div>
 
@@ -125,8 +131,9 @@ export default function SettingsPage() {
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-xl font-semibold">Configuración de Notificaciones</h2>
               <Switch
-                checked={notifications}
-                onCheckedChange={setNotifications}
+                checked={generalNotifications}
+                onCheckedChange={setGeneralNotifications}
+                className="data-[state=checked]:bg-green-500"
               />
             </div>
 
@@ -138,7 +145,11 @@ export default function SettingsPage() {
                     Recibe notificaciones de nuevos pedidos por email
                   </div>
                 </div>
-                <Switch />
+                <Switch
+                  checked={emailNotifications}
+                  onCheckedChange={setEmailNotifications}
+                  className="data-[state=checked]:bg-green-500"
+                />
               </div>
 
               <div className="flex items-center justify-between">
@@ -148,7 +159,11 @@ export default function SettingsPage() {
                     Recibe notificaciones en tiempo real en el navegador
                   </div>
                 </div>
-                <Switch />
+                <Switch
+                  checked={pushNotifications}
+                  onCheckedChange={setPushNotifications}
+                  className="data-[state=checked]:bg-green-500"
+                />
               </div>
 
               <div className="flex items-center justify-between">
@@ -158,7 +173,11 @@ export default function SettingsPage() {
                     Recibe un resumen diario de la actividad
                   </div>
                 </div>
-                <Switch />
+                <Switch
+                  checked={dailySummary}
+                  onCheckedChange={setDailySummary}
+                  className="data-[state=checked]:bg-green-500"
+                />
               </div>
             </div>
           </Card>
@@ -167,7 +186,7 @@ export default function SettingsPage() {
 
       <div className="mt-6 flex justify-end gap-4">
         <Button variant="outline">Cancelar</Button>
-        <Button>Guardar Cambios</Button>
+        <Button variant="outline">Guardar Cambios</Button>
       </div>
     </div>
   )

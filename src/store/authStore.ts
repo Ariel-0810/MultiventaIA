@@ -3,9 +3,8 @@ import { persist } from 'zustand/middleware'
 
 interface User {
   id: string
-  email: string
   name: string
-  businessType?: string
+  role: string
 }
 
 interface AuthState {

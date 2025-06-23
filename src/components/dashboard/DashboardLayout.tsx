@@ -15,6 +15,7 @@ import {
   FiStar,
   FiSettings,
   FiMenu,
+  FiShoppingBag,
 } from 'react-icons/fi'
 import { IconType } from 'react-icons'
 import { useAuthStore } from '@/store/authStore'
@@ -29,7 +30,7 @@ const LinkItems: Array<LinkItemProps> = [
   { name: 'Inicio', icon: FiHome, route: '/dashboard' },
   { name: 'Pedidos', icon: FiTrendingUp, route: '/dashboard/orders' },
   { name: 'Conversaciones', icon: FiCompass, route: '/dashboard/chat' },
-  { name: 'Inventario', icon: FiStar, route: '/dashboard/inventory' },
+  { name: 'Mercado Libre', icon: FiShoppingBag, route: '/dashboard/mercadolibre' },
   { name: 'Configuración', icon: FiSettings, route: '/dashboard/settings' },
 ]
 
