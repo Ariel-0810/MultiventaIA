@@ -1,26 +1,17 @@
 'use client'
 
 import { useState } from 'react'
+import { useRouter } from 'next/navigation'
 import { useAuthStore } from '@/store/authStore'
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { toast } from "sonner"
-import { api } from '@/lib/api'
-
-interface LoginResponse {
-  user: {
-    id: string
-    email: string
-    name: string
-  }
-  token: string
-}
+import { Card } from "@/components/ui/card"
 
 export function LoginForm() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [isLoading, setIsLoading] = useState(false)
+  const router = useRouter()
   const login = useAuthStore((state) => state.login)
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -28,60 +19,68 @@ export function LoginForm() {
     setIsLoading(true)
 
     try {
-      const { data } = await api.post<LoginResponse>('/auth/login', { email, password })
-      login(data.user, data.token)
-      toast.success('¡Bienvenido!')
+      await login(email, password)
+      router.push('/dashboard')
     } catch (error) {
-      toast.error(
-        'Error al iniciar sesión',
-        {
-          description: error instanceof Error ? error.message : 'Error desconocido'
-        }
-      )
+      console.error('Error al iniciar sesión:', error)
     } finally {
       setIsLoading(false)
     }
   }
 
   return (
-    <div className="max-w-md mx-auto mt-8 p-6 border rounded-lg">
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <h2 className="text-2xl font-bold text-center">
-          Iniciar Sesión
-        </h2>
-        
-        <div className="space-y-2">
-          <Label htmlFor="email">Email</Label>
-          <Input
-            id="email"
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder="ingresatuemail@email.com"
-            required
-          />
+    <Card className="w-full p-8 bg-white/95 shadow-xl rounded-3xl">
+      {/* Logo */}
+      <div className="flex justify-center mb-8">
+        <div className="w-16 h-16 bg-blue-500 rounded-2xl flex items-center justify-center">
+          <span className="text-white text-3xl font-bold">A</span>
         </div>
+      </div>
 
-        <div className="space-y-2">
-          <Label htmlFor="password">Contraseña</Label>
-          <Input
-            id="password"
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            placeholder="********"
-            required
-          />
+      {/* Título */}
+      <div className="text-center mb-8">
+        <h1 className="text-2xl font-bold text-gray-900">MultiVenta AI</h1>
+      </div>
+
+      <form onSubmit={handleSubmit} className="space-y-6">
+        <div className="space-y-4">
+          <div>
+            <Input
+              type="email"
+              placeholder="Correo electrónico"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="w-full px-4 py-3 rounded-xl border-gray-200"
+              required
+            />
+          </div>
+
+          <div>
+            <Input
+              type="password"
+              placeholder="Contraseña"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="w-full px-4 py-3 rounded-xl border-gray-200"
+              required
+            />
+          </div>
         </div>
 
         <Button
           type="submit"
-          className="w-full"
           disabled={isLoading}
+          className="w-full bg-blue-500 hover:bg-blue-600 text-white py-6 rounded-xl text-lg font-medium"
         >
-          {isLoading ? 'Cargando...' : 'Iniciar Sesión'}
+          {isLoading ? "Iniciando sesión..." : "Iniciar sesión"}
         </Button>
+
+        <div className="text-center mt-4">
+          <a href="#" className="text-sm text-gray-600 hover:text-gray-800">
+            ¿Olvidaste tu contraseña?
+          </a>
+        </div>
       </form>
-    </div>
+    </Card>
   )
 } 

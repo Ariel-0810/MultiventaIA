@@ -80,84 +80,95 @@ export default function ChatWindow({ customerId, customerName }: ChatWindowProps
   }
 
   return (
-    <Card className="flex flex-col h-[600px] max-w-2xl mx-auto">
-      <div className="p-4 border-b">
-        <h2 className="text-lg font-bold">
-          Chat con {customerName || 'Cliente'} 
-          <span className="text-sm font-normal text-gray-500 ml-2">#{customerId}</span>
-        </h2>
+    <div className="grid grid-cols-12 gap-6">
+      {/* Lista de chats */}
+      <div className="col-span-4">
+        <Card className="h-[calc(100vh-12rem)] flex flex-col">
+          <div className="p-4 border-b">
+            <h2 className="font-semibold">Conversaciones</h2>
+          </div>
+          <div className="flex-1 overflow-y-auto p-4 space-y-4">
+            {[1, 2, 3, 4, 5].map((chat) => (
+              <div
+                key={chat}
+                className="flex items-center space-x-4 p-3 rounded-lg hover:bg-gray-50 cursor-pointer"
+              >
+                <div className="w-10 h-10 bg-gray-200 rounded-full"></div>
+                <div>
+                  <p className="font-medium">Cliente {chat}</p>
+                  <p className="text-sm text-gray-500">Último mensaje...</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </Card>
       </div>
 
-      <div className="flex-1 overflow-y-auto p-4 space-y-4">
-        {messages.map((message) => (
-          <div
-            key={message.id}
-            className={`flex ${message.from === 'vos' ? 'justify-end' : 'justify-start'}`}
-          >
-            <div
-              className={`max-w-[70%] rounded-lg p-3 ${
-                message.from === 'vos'
-                  ? 'bg-blue-500 text-white'
-                  : 'bg-gray-100 text-gray-800'
-              }`}
-            >
-              <p>{message.text}</p>
-              <span className="text-xs opacity-70 mt-1 block">
-                {new Date(message.timestamp).toLocaleTimeString()}
-              </span>
+      {/* Ventana de chat */}
+      <div className="col-span-8">
+        <Card className="h-[calc(100vh-12rem)] flex flex-col">
+          <div className="p-4 border-b">
+            <div className="flex items-center space-x-4">
+              <div className="w-10 h-10 bg-gray-200 rounded-full"></div>
+              <div>
+                <p className="font-medium">John Smith</p>
+                <p className="text-sm text-gray-500">En línea</p>
+              </div>
             </div>
           </div>
-        ))}
-        <div ref={messagesEndRef} />
-      </div>
 
-      {suggestion && (
-        <div className="px-4 py-2 bg-blue-50 border-t border-blue-100">
-          <p className="text-sm text-gray-600">
-            💡 <strong>Sugerencia IA:</strong> {suggestion}
-          </p>
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={applySuggestion}
-            className="mt-1 text-blue-600"
-          >
-            Usar sugerencia
-          </Button>
-        </div>
-      )}
+          <div className="flex-1 overflow-y-auto p-4 space-y-4">
+            <div className="flex items-start space-x-4">
+              <div className="flex-shrink-0">
+                <div className="w-8 h-8 rounded-full bg-gray-200"></div>
+              </div>
+              <div className="flex-1">
+                <div className="bg-gray-100 rounded-lg p-3 max-w-[80%] inline-block">
+                  <p>Hi, is the item available in size large?</p>
+                </div>
+                <p className="text-xs text-gray-500 mt-1">10:30 AM</p>
+              </div>
+            </div>
 
-      <div className="p-4 border-t bg-gray-50">
-        <Textarea
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          placeholder="Escribe un mensaje..."
-          className="w-full mb-2"
-          rows={3}
-          onKeyDown={(e) => {
-            if (e.key === 'Enter' && !e.shiftKey) {
-              e.preventDefault()
-              sendMessage()
-            }
-          }}
-        />
-        <div className="flex gap-2">
-          <Button
-            onClick={getSuggestion}
-            disabled={loading || messages.length === 0}
-            variant="outline"
-          >
-            {loading ? 'Pensando...' : '💡 Sugerencia IA'}
-          </Button>
-          <Button
-            onClick={sendMessage}
-            disabled={!input.trim()}
-            className="flex-1"
-          >
-            Enviar mensaje
-          </Button>
-        </div>
+            <div className="flex items-start justify-end space-x-4">
+              <div className="flex-1 text-right">
+                <div className="bg-blue-500 text-white rounded-lg p-3 max-w-[80%] inline-block">
+                  <p>Yes, we have it in size large.</p>
+                </div>
+                <p className="text-xs text-gray-500 mt-1">10:32 AM</p>
+              </div>
+              <div className="flex-shrink-0">
+                <div className="w-8 h-8 rounded-full bg-blue-200"></div>
+              </div>
+            </div>
+
+            <div className="flex items-start space-x-4">
+              <div className="flex-shrink-0">
+                <div className="w-8 h-8 rounded-full bg-gray-200"></div>
+              </div>
+              <div className="flex-1">
+                <div className="bg-gray-100 rounded-lg p-3 max-w-[80%] inline-block">
+                  <p>Great! How long does shipping take?</p>
+                </div>
+                <p className="text-xs text-gray-500 mt-1">10:34 AM</p>
+              </div>
+            </div>
+          </div>
+
+          <div className="p-4 border-t">
+            <div className="flex items-center space-x-4">
+              <div className="flex-1">
+                <div className="bg-gray-50 p-4 rounded-lg">
+                  <p className="text-gray-600">Generate an estimated shipping time response</p>
+                </div>
+              </div>
+              <Button className="bg-blue-500 text-white px-6">
+                Generate
+              </Button>
+            </div>
+          </div>
+        </Card>
       </div>
-    </Card>
+    </div>
   )
 } 

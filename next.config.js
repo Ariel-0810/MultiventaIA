@@ -1,6 +1,5 @@
-import type { NextConfig } from "next";
-
-const nextConfig: NextConfig = {
+/** @type {import('next').NextConfig} */
+const nextConfig = {
   // Habilitar React Strict Mode para mejor detección de errores
   reactStrictMode: true,
   
@@ -11,7 +10,7 @@ const nextConfig: NextConfig = {
     
     if (dev && !isServer) {
       // Dividir el código en chunks más pequeños para mejor HMR
-      const splitChunks = config.optimization?.splitChunks as any
+      const splitChunks = config.optimization?.splitChunks
       if (splitChunks) {
         splitChunks.cacheGroups = {
           ...splitChunks.cacheGroups,
@@ -35,13 +34,7 @@ const nextConfig: NextConfig = {
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
   },
 
-  // Configuración de Turbopack (versión estable)
-  turbopack: {
-    rules: {
-      // Configuración de reglas específicas si es necesario
-      "*.mdx": ["mdx-loader"]
-    }
-  }
+  // Eliminamos la configuración de Turbopack ya que no es necesaria
 };
 
-export default nextConfig;
+module.exports = nextConfig; 
